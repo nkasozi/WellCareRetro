@@ -26,7 +26,7 @@ namespace WellCare.AzureApi
 
         [FunctionName("GetHealthScore")]
         public async Task<IActionResult> GetHealthScore(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP GetHealthScore trigger function processed a request.");
@@ -46,15 +46,10 @@ namespace WellCare.AzureApi
 
         [FunctionName("SaveHealthScore")]
         public async Task<IActionResult> SaveHealthScore(
-           [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+           [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
            ILogger log)
         {
             log.LogInformation($"C# HTTP {nameof(SaveHealthScore)} trigger function processed a request.");
-
-            string name = req.Query["name"];
-
-            if (string.IsNullOrEmpty(name))
-                return new BadRequestObjectResult("Please pass a name on the query string or in the request body");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 

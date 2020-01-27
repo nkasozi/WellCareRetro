@@ -6,11 +6,12 @@ namespace WellCare.Models
     {
         public const string FAILURE_STATUS_CODE = "100";
         public const string SUCCESS_STATUS_CODE = "0";
+        public const string SUCCESS_STATUS_TEXT = "SUCCESS";
 
         public static Status SUCCESS = new Status
         {
             StatusCode = SUCCESS_STATUS_CODE,
-            StatusDesc = "SUCCESS"
+            StatusDesc = SUCCESS_STATUS_TEXT
         };
 
         public static Status FAILURE = new Status

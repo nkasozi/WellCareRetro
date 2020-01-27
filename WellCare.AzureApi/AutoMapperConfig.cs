@@ -11,7 +11,15 @@ namespace WellCare.AzureApi
     {
         public static void Init()
         {
-            Mapper.CreateMap<User, UserDetails>().ReverseMap();
+            Mapper.CreateMap<User, UserDetails>()
+               .ForMember
+                (
+                   dest => dest.status,
+                   opt => opt.MapFrom(src => Status.SUCCESS)
+                )
+                .ReverseMap();
+
+            
             Mapper.CreateMap<User, UserListItem>().ReverseMap();
             Mapper.CreateMap<HealthScore, HealthScoreDetails>().ReverseMap();
             Mapper.CreateMap<HealthScore, HealthScoreListItem>().ReverseMap();

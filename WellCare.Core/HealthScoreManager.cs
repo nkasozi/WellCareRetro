@@ -36,8 +36,11 @@ namespace WellCare.Core
                 };
             }
 
-            //we can safely remove him
-            return Mapper.Map<HealthScoreDetails>(score);
+            //we can safely return him
+            var details = Mapper.Map<HealthScoreDetails>(score);
+            details.status = Status.SUCCESS;
+
+            return details;
         }
 
         public ICollection<HealthScoreListItem> List()

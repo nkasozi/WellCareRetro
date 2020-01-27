@@ -9,87 +9,104 @@ using WellCare.Models;
 using Newtonsoft.Json;
 using FluentAssertions;
 using System.Net;
+using System.Net.Http.Formatting;
 
 namespace WellCare.AzureApi.IntegrationTests
 {
-    public class HealthScoreApiTests : BaseIntegrationTest
+    [Collection(nameof(TestCollection))]
+    public class HealthScoreApiTests
     {
+        private readonly TestFixture _fixture;
 
+        public HealthScoreApiTests(TestFixture fixture)
+        {
+            _fixture = fixture;
+        }
+
+        [Fact()]
+        public void SaveHealthScoreTest_GivenValidHealthScore_ExpectSuccess()
+        {
+            string url = "api/SaveHealthScore";
+
+            var healthScore = new HealthScoreDetails
+            {
+                UserId = "nsubugak@yahoo.com",
+                BloodPressure = "1",
+                Weight = 150,
+                Id = 1
+            };
+
+            var httpResponse = _fixture.Client.PostAsJsonAsync(url, healthScore).Result;
+
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var jsonResponse = httpResponse.Content.ReadAsStringAsync().Result;
+
+            var details = JsonConvert.DeserializeObject<Status>(jsonResponse);
+
+            details.Should().NotBeNull();
+
+            details.StatusCode.Should().Be(Status.SUCCESS_STATUS_CODE);
+            details.StatusDesc.Should().Be(Status.SUCCESS_STATUS_TEXT);
+        }
 
         [Fact()]
         public void GetHealthScoreTest_GivenValidId_ExpectSuccess()
         {
-            try
-            {
-                SetUp();
+            SaveHealthScoreTest_GivenValidHealthScore_ExpectSuccess();
 
-                using (var httpClient = new HttpClient())
-                {
-                    Uri url = ApiAction("GetHealthScore?Id=1");
+            string url = "api/GetHealthScore?Id=1";
 
-                    var httpResponse = httpClient.GetAsync(url).Result;
+            var httpResponse = _fixture.Client.GetAsync(url).Result;
 
-                    httpResponse.EnsureSuccessStatusCode();
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-                    var jsonResponse = httpResponse.Content.ReadAsStringAsync().Result;
+            var jsonResponse = httpResponse.Content.ReadAsStringAsync().Result;
 
-                    var details = JsonConvert.DeserializeObject<HealthScoreDetails>(jsonResponse);
+            var details = JsonConvert.DeserializeObject<HealthScoreDetails>(jsonResponse);
 
-                    details.Should().NotBeNull();
+            details.Should().NotBeNull();
+            details.status.StatusCode.Should().Be(Status.SUCCESS_STATUS_CODE);
+            details.status.StatusDesc.Should().Be(Status.SUCCESS_STATUS_TEXT);
+        }
 
-                    details.status.Should().BeSameAs(Status.SUCCESS);
-                }
-            }
-            finally
-            {
-                TearDown();
-            }
+        [Fact()]
+        public void GetHealthScoreTest_GivenNonexistentID_ExpectFailure()
+        {
+            string url = "api/GetHealthScore?Id=1000";
+
+            var httpResponse = _fixture.Client.GetAsync(url).Result;
+
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var jsonResponse = httpResponse.Content.ReadAsStringAsync().Result;
+
+            var details = JsonConvert.DeserializeObject<HealthScoreDetails>(jsonResponse);
+
+            details.Should().NotBeNull();
+
+            details.status.StatusCode.Should().NotBe(Status.SUCCESS_STATUS_CODE);
+            details.status.StatusDesc.Should().NotBe(Status.SUCCESS_STATUS_TEXT);
         }
 
         [Fact()]
         public void GetHealthScoreTest_GivenInvalidId_ExpectFailure()
         {
-            try
-            {
-                SetUp();
+            string url = "api/GetHealthScore?Id=test";
 
-                using (var httpClient = new HttpClient())
-                {
-                    Uri url = ApiAction("GetHealthScore?Id=test");
+            var httpResponse = _fixture.Client.GetAsync(url).Result;
 
-                    var httpResponse = httpClient.GetAsync(url).Result;
-
-                    httpResponse.StatusCode.Should().NotBe(HttpStatusCode.OK);
-                }
-            }
-            finally
-            {
-                TearDown();
-            }
-
+            httpResponse.StatusCode.Should().NotBe(HttpStatusCode.OK);
         }
 
         [Fact()]
         public void GetHealthScoreTest_GivenNoId_ExpectFailure()
         {
-            try
-            {
-                SetUp();
+            string url = "api/GetHealthScore?Id=";
 
-                using (var httpClient = new HttpClient())
-                {
-                    Uri url = ApiAction("GetHealthScore?Id=");
+            var httpResponse = _fixture.Client.GetAsync(url).Result;
 
-                    var httpResponse = httpClient.GetAsync(url).Result;
-
-                    httpResponse.StatusCode.Should().NotBe(HttpStatusCode.OK);
-                }
-            }
-            finally
-            {
-                TearDown();
-            }
-
+            httpResponse.StatusCode.Should().NotBe(HttpStatusCode.OK);
         }
     }
 }
