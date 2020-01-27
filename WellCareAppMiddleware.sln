@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellCare.Core", "WellCare.Core\WellCare.Core.csproj", "{5663A18F-E69C-4822-9C69-C84F3BAC3FBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WellCare.Core", "WellCare.Core\WellCare.Core.csproj", "{5663A18F-E69C-4822-9C69-C84F3BAC3FBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellCare.AzureApi", "WellCare.AzureApi\WellCare.AzureApi.csproj", "{C3BC39DB-0BB7-480F-B446-D1C24FDF1B15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WellCare.AzureApi", "WellCare.AzureApi\WellCare.AzureApi.csproj", "{C3BC39DB-0BB7-480F-B446-D1C24FDF1B15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellCare.AzureApiTests", "WellCare.AzureApiTests\WellCare.AzureApiTests.csproj", "{555A8BE7-9ECA-4824-A5B0-152C9919068D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WellCare.AzureApi.IntegrationTests", "WellCare.AzureApiTests\WellCare.AzureApi.IntegrationTests.csproj", "{555A8BE7-9ECA-4824-A5B0-152C9919068D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WellCare.Models", "WellCare.Models\WellCare.Models.csproj", "{F7139807-36F3-47AF-8C04-CDB444214DCB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WellCare.Repositories", "WellCare.Repositories\WellCare.Repositories.csproj", "{EB346821-260D-4CEA-94E8-1900E18D543B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +59,30 @@ Global
 		{555A8BE7-9ECA-4824-A5B0-152C9919068D}.Release|x64.Build.0 = Release|Any CPU
 		{555A8BE7-9ECA-4824-A5B0-152C9919068D}.Release|x86.ActiveCfg = Release|Any CPU
 		{555A8BE7-9ECA-4824-A5B0-152C9919068D}.Release|x86.Build.0 = Release|Any CPU
+		{F7139807-36F3-47AF-8C04-CDB444214DCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7139807-36F3-47AF-8C04-CDB444214DCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7139807-36F3-47AF-8C04-CDB444214DCB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F7139807-36F3-47AF-8C04-CDB444214DCB}.Debug|x64.Build.0 = Debug|Any CPU
+		{F7139807-36F3-47AF-8C04-CDB444214DCB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F7139807-36F3-47AF-8C04-CDB444214DCB}.Debug|x86.Build.0 = Debug|Any CPU
+		{F7139807-36F3-47AF-8C04-CDB444214DCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7139807-36F3-47AF-8C04-CDB444214DCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7139807-36F3-47AF-8C04-CDB444214DCB}.Release|x64.ActiveCfg = Release|Any CPU
+		{F7139807-36F3-47AF-8C04-CDB444214DCB}.Release|x64.Build.0 = Release|Any CPU
+		{F7139807-36F3-47AF-8C04-CDB444214DCB}.Release|x86.ActiveCfg = Release|Any CPU
+		{F7139807-36F3-47AF-8C04-CDB444214DCB}.Release|x86.Build.0 = Release|Any CPU
+		{EB346821-260D-4CEA-94E8-1900E18D543B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB346821-260D-4CEA-94E8-1900E18D543B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB346821-260D-4CEA-94E8-1900E18D543B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EB346821-260D-4CEA-94E8-1900E18D543B}.Debug|x64.Build.0 = Debug|Any CPU
+		{EB346821-260D-4CEA-94E8-1900E18D543B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EB346821-260D-4CEA-94E8-1900E18D543B}.Debug|x86.Build.0 = Debug|Any CPU
+		{EB346821-260D-4CEA-94E8-1900E18D543B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB346821-260D-4CEA-94E8-1900E18D543B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB346821-260D-4CEA-94E8-1900E18D543B}.Release|x64.ActiveCfg = Release|Any CPU
+		{EB346821-260D-4CEA-94E8-1900E18D543B}.Release|x64.Build.0 = Release|Any CPU
+		{EB346821-260D-4CEA-94E8-1900E18D543B}.Release|x86.ActiveCfg = Release|Any CPU
+		{EB346821-260D-4CEA-94E8-1900E18D543B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
