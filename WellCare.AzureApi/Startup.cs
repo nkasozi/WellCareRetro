@@ -18,8 +18,11 @@ namespace WellCare.AzureApi
         {
 
             AutoMapperConfig.Init();
+
             builder.Services.AddScoped<IBaseRepository<HealthScore>, InMemoryRepository<HealthScore>>();
             builder.Services.AddScoped<IHealthScoreManager, HealthScoreManager>();
+            builder.Services.AddScoped<IBaseRepository<Content>, InMemoryRepository<Content>>();
+            builder.Services.AddScoped<IContentManager, ContentManager>();
         }
     }
 }

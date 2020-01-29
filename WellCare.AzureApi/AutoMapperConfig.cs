@@ -18,11 +18,12 @@ namespace WellCare.AzureApi
                    opt => opt.MapFrom(src => Status.SUCCESS)
                 )
                 .ReverseMap();
-
-            
+  
             Mapper.CreateMap<User, UserListItem>().ReverseMap();
             Mapper.CreateMap<HealthScore, HealthScoreDetails>().ReverseMap();
             Mapper.CreateMap<HealthScore, HealthScoreListItem>().ReverseMap();
+            Mapper.CreateMap<Content, ContentDetails>().ReverseMap();
+            Mapper.CreateMap<Content, ContentListItem>().ReverseMap();
         }
     }
 }

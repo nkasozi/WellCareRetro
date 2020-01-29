@@ -46,7 +46,7 @@ namespace WellCare.AzureApi
                     "Id must be an int"
                 );
 
-            var details = await _manager.GetAsync(int.Parse(Id));
+            var details = await _manager.GetByIdAsync(int.Parse(Id));
 
             return new OkObjectResult(details);
         }

@@ -11,16 +11,15 @@ using WellCare.Repositories.Interface;
 
 namespace WellCare.Core
 {
-    public class HealthScoreManager : IHealthScoreManager
+    public class ContentManager : IContentManager
     {
-        private readonly IBaseRepository<HealthScore> _repository;
+        IBaseRepository<Content> _repository;
 
-        public HealthScoreManager(IBaseRepository<HealthScore> repository)
+        public ContentManager(IBaseRepository<Content> repository)
         {
             _repository = repository;
         }
-
-        public async Task<HealthScoreDetails> GetByIdAsync(int id)
+        public async Task<ContentDetails> GetByIdAsync(int id)
         {
             //find the user with the id specified
             var score = (await _repository.AsQueryAsync()).FirstOrDefault(p => p.Id == id);
@@ -28,7 +27,7 @@ namespace WellCare.Core
             //the user hasnt been found
             if (score == null)
             {
-                return new HealthScoreDetails
+                return new ContentDetails
                 {
                     status = new Status
                     {
@@ -39,15 +38,30 @@ namespace WellCare.Core
             }
 
             //we can safely return him
-            var details = Mapper.Map<HealthScoreDetails>(score);
+            var details = Mapper.Map<ContentDetails>(score);
             details.status = Status.SUCCESS;
 
             return details;
         }
 
-        public async Task<ICollection<HealthScoreListItem>> List()
+        public async Task<ICollection<ContentListItem>> List()
         {
-            return Mapper.Map<List<HealthScoreListItem>>((await _repository.AsQueryAsync()));
+            return Mapper.Map<List<ContentListItem>>((await _repository.AsQueryAsync()));
+        }
+
+        public async Task<ICollection<ContentListItem>> List(FilterResultsRequest filter)
+        {
+            List<Content> filteredContent = (await _repository.AsQueryAsync())
+                                                .Where(i => (i != null && i.Title != null && !string.IsNullOrEmpty(filter.Term) && i.Title.Contains(filter.Term)))
+
+                                                .ToList();
+
+            var results = Mapper.Map<List<ContentListItem>>(filteredContent);
+
+
+            return results;
+
+
         }
 
         public async Task<Status> RemoveByIdAsync(int id)
@@ -68,7 +82,7 @@ namespace WellCare.Core
             return Status.SUCCESS;
         }
 
-        public async Task<Status> SaveAsync(HealthScoreDetails details)
+        public async Task<Status> SaveAsync(ContentDetails details)
         {
             //details invalid..missing something
             if (!details.IsValid())
@@ -77,7 +91,7 @@ namespace WellCare.Core
                 return details.status;
             }
 
-            HealthScore savedEntity;
+            Content savedEntity;
             Status result;
 
             //look for the exisitng
@@ -86,9 +100,9 @@ namespace WellCare.Core
             //no exisiting found..so we add him
             if (existing == null)
             {
-                savedEntity = Mapper.Map<HealthScore>(details);
+                savedEntity = Mapper.Map<Content>(details);
 
-                _repository.AddAsync(savedEntity);
+                await _repository.AddAsync(savedEntity);
 
                 //success
                 result = Status.SUCCESS;
@@ -96,7 +110,7 @@ namespace WellCare.Core
             }
 
             //update the exisiting
-            savedEntity = Mapper.Map<HealthScoreDetails, HealthScore>(details, existing);
+            savedEntity = Mapper.Map<ContentDetails, Content>(details, existing);
             savedEntity.DateModified = DateTime.UtcNow;
             await _repository.UpdateAsync(savedEntity);
 

@@ -6,6 +6,7 @@ using WellCare.Models;
 using WellCare.Repositories.Entities;
 using WellCare.Repositories.Interface;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace WellCare.Core
 {
@@ -18,10 +19,10 @@ namespace WellCare.Core
             _userRepository = userRepository;
         }
 
-        public UserDetails Get(string id)
+        public async Task<UserDetails> GetByIdAsync(string id)
         {
             //find the user with the id specified
-            var user = _userRepository.AsQuery().FirstOrDefault(p => p.UserId == id);
+            var user = (await _userRepository.AsQueryAsync()).FirstOrDefault(p => p.UserId == id);
 
             //the user hasnt been found
             if (user == null)
@@ -41,15 +42,15 @@ namespace WellCare.Core
 
         }
 
-        public ICollection<UserListItem> List()
+        public async Task<ICollection<UserListItem>> List()
         {
-            return Mapper.Map<List<UserListItem>>(_userRepository.AsQuery());
+            return Mapper.Map<List<UserListItem>>((await _userRepository.AsQueryAsync()));
         }
 
-        public Status Remove(string id)
+        public async Task<Status> RemoveByIdAsync(string id)
         {
             //find the user with the id specified
-            var user = _userRepository.AsQuery().FirstOrDefault(p => p.UserId == id);
+            var user = (await _userRepository.AsQueryAsync()).FirstOrDefault(p => p.UserId == id);
 
             //the user hasnt been found
             if (user == null)
@@ -58,13 +59,13 @@ namespace WellCare.Core
             }
 
             //we can safely remove him
-            _userRepository.Remove(user);
+            await _userRepository.RemoveAsync(user);
 
             //success
             return Status.SUCCESS;
         }
 
-        public Status Save(UserDetails userDetails)
+        public async Task<Status> SaveAsync(UserDetails userDetails)
         {
             //user details missing something
             if (!userDetails.IsValid())
@@ -77,14 +78,14 @@ namespace WellCare.Core
             Status result;
 
             //look for the user
-            var existingUser = _userRepository.AsQuery().FirstOrDefault(p => p.UserId == userDetails.UserId);
+            var existingUser = (await _userRepository.AsQueryAsync()).FirstOrDefault(p => p.UserId == userDetails.UserId);
 
             //user doesnt exist..so we add him
             if (existingUser == null)
             {
                 savedEntity = Mapper.Map<User>(userDetails);
 
-                _userRepository.Add(savedEntity);
+                await _userRepository.AddAsync(savedEntity);
 
                 //success
                 result = Status.SUCCESS;
@@ -94,7 +95,7 @@ namespace WellCare.Core
             //update the user
             savedEntity = Mapper.Map(userDetails, existingUser);
             savedEntity.DateModified = DateTime.UtcNow;
-            _userRepository.Update(savedEntity);
+            await _userRepository.UpdateAsync(savedEntity);
 
             //success
             result = Status.SUCCESS;

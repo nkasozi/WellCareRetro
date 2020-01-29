@@ -4,10 +4,10 @@ using System.Text;
 
 namespace WellCare.Models
 {
-    public class HealthScoreListItem
+    public class ContentListItem 
     {
         public int Id { get; set; }
-        public float HealthScoreValue { get; set; }
-        public DateTime DateCreated { get; set; }
+        public string Title { get; set; }
+        public string AuthorId { get; set; }
     }
 }
