@@ -61,7 +61,7 @@ namespace WellCare.AzureApiTests1
             var json = JsonConvert.SerializeObject(details);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var httpResponse = _fixture.Client.PostAsync(url,  content).Result;
+            var httpResponse = _fixture.Client.PostAsync(url, content).Result;
 
             httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -100,6 +100,54 @@ namespace WellCare.AzureApiTests1
             status.StatusDesc.Should().NotBe(Status.SUCCESS_STATUS_TEXT);
         }
 
+        [Fact()]
+        public void GetContent_GivenInvalidId_ExpectFailure()
+        {
+            string url = "api/GetContentById?Id=test";
+
+            var httpResponse = _fixture.Client.GetAsync(url).Result;
+
+            httpResponse.StatusCode.Should().NotBe(HttpStatusCode.OK);
+        }
+
+
+        [Fact()]
+        public void GetContent_GivenValidId_ExpectSuccess()
+        {
+            SaveContent_GivenValidContentDetails_ExpectSuccess();
+
+            string url = "api/GetContentById?Id=1";
+
+            var httpResponse = _fixture.Client.GetAsync(url).Result;
+
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var jsonResponse = httpResponse.Content.ReadAsStringAsync().Result;
+
+            var details = JsonConvert.DeserializeObject<ContentDetails>(jsonResponse);
+
+            details.Should().NotBeNull();
+            details.status.StatusCode.Should().Be(Status.SUCCESS_STATUS_CODE);
+            details.status.StatusDesc.Should().Be(Status.SUCCESS_STATUS_TEXT);
+        }
+
+        [Fact()]
+        public void GetContent_GivenNonExistantId_ExpectSuccess()
+        {
+            string url = "api/GetContentById?Id=1333";
+
+            var httpResponse = _fixture.Client.GetAsync(url).Result;
+
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var jsonResponse = httpResponse.Content.ReadAsStringAsync().Result;
+
+            var details = JsonConvert.DeserializeObject<ContentDetails>(jsonResponse);
+
+            details.Should().NotBeNull();
+            details.status.StatusCode.Should().NotBe(Status.SUCCESS_STATUS_CODE);
+            details.status.StatusDesc.Should().NotBe(Status.SUCCESS_STATUS_TEXT);
+        }
 
 
     }

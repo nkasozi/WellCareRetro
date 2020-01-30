@@ -19,8 +19,10 @@ namespace WellCare.Core
         {
             _repository = repository;
         }
+
         public async Task<ContentDetails> GetByIdAsync(int id)
         {
+
             //find the user with the id specified
             var score = (await _repository.AsQueryAsync()).FirstOrDefault(p => p.Id == id);
 
@@ -39,6 +41,7 @@ namespace WellCare.Core
 
             //we can safely return him
             var details = Mapper.Map<ContentDetails>(score);
+
             details.status = Status.SUCCESS;
 
             return details;
@@ -53,11 +56,9 @@ namespace WellCare.Core
         {
             List<Content> filteredContent = (await _repository.AsQueryAsync())
                                                 .Where(i => (i != null && i.Title != null && !string.IsNullOrEmpty(filter.Term) && i.Title.Contains(filter.Term)))
-
                                                 .ToList();
 
             var results = Mapper.Map<List<ContentListItem>>(filteredContent);
-
 
             return results;
 

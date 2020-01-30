@@ -24,14 +24,17 @@ namespace WellCare.AzureApi
         [FunctionName("GetContentById")]
         public async Task<IActionResult> GetContentById
         (
-           [HttpTrigger(AuthorizationLevel.Anonymous, "get")] int Id,
-           HttpRequest req,
+           [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req,
            ILogger log
         )
         {
+            string Id = req.Query["Id"];
+
+            if (!int.TryParse(Id, out _)) return new BadRequestObjectResult("Id is required and must be an Integer");
+
             log.LogInformation("C# HTTP GetHealthScore trigger function processed a request.");
 
-            var details = await _manager.GetByIdAsync(Id);
+            var details = await _manager.GetByIdAsync(int.Parse(Id));
 
             return new OkObjectResult(details);
         }

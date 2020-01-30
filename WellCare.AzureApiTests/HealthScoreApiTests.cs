@@ -36,7 +36,10 @@ namespace WellCare.AzureApi.IntegrationTests
                 Id = 1
             };
 
-            var httpResponse = _fixture.Client.PostAsJsonAsync(url, healthScore).Result;
+            var json = JsonConvert.SerializeObject(healthScore);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var httpResponse = _fixture.Client.PostAsync(url, content).Result;
 
             httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
