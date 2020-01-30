@@ -37,6 +37,7 @@ namespace WellCare.AzureApi.IntegrationTests
             };
 
             var json = JsonConvert.SerializeObject(healthScore);
+            
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var httpResponse = _fixture.Client.PostAsync(url, content).Result;
@@ -48,7 +49,6 @@ namespace WellCare.AzureApi.IntegrationTests
             var details = JsonConvert.DeserializeObject<Status>(jsonResponse);
 
             details.Should().NotBeNull();
-
             details.StatusCode.Should().Be(Status.SUCCESS_STATUS_CODE);
             details.StatusDesc.Should().Be(Status.SUCCESS_STATUS_TEXT);
         }

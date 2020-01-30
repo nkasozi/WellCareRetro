@@ -15,7 +15,30 @@ https://WellCareAppRetro@dev.azure.com/WellCareAppRetro/WellCareAppMiddleware/_g
 Here is a working live demo: 
 
 ```bash
-https://testnv.azurewebsites.net/api/newsposts/1
+Content And Search API
+https://wellcareapp.azurewebsites.net/api/SaveContent
+HttpMethod: POST
+{"Id":1,"Title":"test title","ContentValue":"test content","AuthorId":"nsubugak@yahoo.com","Category":"test category","Type":"test type","status":null}
+
+https://wellcareapp.azurewebsites.net/api/GetContentById?Id=1
+HttpMethod: GET
+
+https://wellcareapp.azurewebsites.net/api/FilterContent?Term=test
+HttpMethod: GET
+
+HealthScoreApi
+https://wellcareapp.azurewebsites.net/api/GetHealthScoreById?Id=1
+HttpMethod: GET
+
+https://wellcareapp.azurewebsites.net/api/SaveHealthScore
+HttpMethod: POST
+{"Id":1,"UserId":"nsubugak@yahoo.com","Weight":150.0,"BloodPressure":"1","status":null}
+
+
+
+
+
+https://wellcareapp.azurewebsites.net/api/FilterContent
 ```
 ### Development
 Want to contribute? Great!

@@ -33,18 +33,7 @@ namespace WellCare.AzureApi
 
             string Id = req.Query["Id"];
 
-            if (string.IsNullOrEmpty(Id))
-                return new BadRequestObjectResult
-                (
-                    "Please pass an Id on the query " +
-                    "string or in the request body"
-                );
-
-            if (!int.TryParse(Id, out _))
-                return new BadRequestObjectResult
-                (
-                    "Id must be an int"
-                );
+            if (!int.TryParse(Id, out _)) return new BadRequestObjectResult("Id must be an int");
 
             var details = await _manager.GetByIdAsync(int.Parse(Id));
 
@@ -53,14 +42,11 @@ namespace WellCare.AzureApi
 
         [FunctionName("SaveHealthScore")]
         public async Task<IActionResult> SaveHealthScore(
-           [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
+           [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HealthScoreDetails details,
+           HttpRequest req,
            ILogger log)
         {
             log.LogInformation($"C# HTTP {nameof(SaveHealthScore)} trigger function processed a request.");
-
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-
-            var details = JsonConvert.DeserializeObject<HealthScoreDetails>(requestBody);
 
             var result = await _manager.SaveAsync(details);
 
