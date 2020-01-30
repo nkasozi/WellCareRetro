@@ -36,7 +36,10 @@ namespace WellCare.AzureApi.IntegrationTests
                 Id = 1
             };
 
-            var httpResponse = _fixture.Client.PostAsJsonAsync(url, healthScore).Result;
+            var json = JsonConvert.SerializeObject(healthScore);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var httpResponse = _fixture.Client.PostAsync(url, content).Result;
 
             httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -55,7 +58,7 @@ namespace WellCare.AzureApi.IntegrationTests
         {
             SaveHealthScoreTest_GivenValidHealthScore_ExpectSuccess();
 
-            string url = "api/GetHealthScore?Id=1";
+            string url = "api/GetHealthScoreById?Id=1";
 
             var httpResponse = _fixture.Client.GetAsync(url).Result;
 
@@ -73,7 +76,7 @@ namespace WellCare.AzureApi.IntegrationTests
         [Fact()]
         public void GetHealthScoreTest_GivenNonexistentID_ExpectFailure()
         {
-            string url = "api/GetHealthScore?Id=1000";
+            string url = "api/GetHealthScoreById?Id=1000";
 
             var httpResponse = _fixture.Client.GetAsync(url).Result;
 
@@ -92,7 +95,7 @@ namespace WellCare.AzureApi.IntegrationTests
         [Fact()]
         public void GetHealthScoreTest_GivenInvalidId_ExpectFailure()
         {
-            string url = "api/GetHealthScore?Id=test";
+            string url = "api/GetHealthScoreById?Id=test";
 
             var httpResponse = _fixture.Client.GetAsync(url).Result;
 
@@ -102,7 +105,7 @@ namespace WellCare.AzureApi.IntegrationTests
         [Fact()]
         public void GetHealthScoreTest_GivenNoId_ExpectFailure()
         {
-            string url = "api/GetHealthScore?Id=";
+            string url = "api/GetHealthScoreById?Id=";
 
             var httpResponse = _fixture.Client.GetAsync(url).Result;
 

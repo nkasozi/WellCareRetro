@@ -8,6 +8,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WellCare.AzureApi", "WellCare.AzureApi\WellCare.AzureApi.csproj", "{C3BC39DB-0BB7-480F-B446-D1C24FDF1B15}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WellCare.AzureApi.IntegrationTests", "WellCare.AzureApiTests\WellCare.AzureApi.IntegrationTests.csproj", "{555A8BE7-9ECA-4824-A5B0-152C9919068D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F7139807-36F3-47AF-8C04-CDB444214DCB} = {F7139807-36F3-47AF-8C04-CDB444214DCB}
+		{EB346821-260D-4CEA-94E8-1900E18D543B} = {EB346821-260D-4CEA-94E8-1900E18D543B}
+		{5663A18F-E69C-4822-9C69-C84F3BAC3FBE} = {5663A18F-E69C-4822-9C69-C84F3BAC3FBE}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WellCare.Models", "WellCare.Models\WellCare.Models.csproj", "{F7139807-36F3-47AF-8C04-CDB444214DCB}"
 EndProject

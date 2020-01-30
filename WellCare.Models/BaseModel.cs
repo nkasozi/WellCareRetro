@@ -27,10 +27,13 @@ namespace WellCare.Models
                 return true;
             }
 
+            //oops errors
+            status = Status.FAILURE;
+
             //get errors in the status desc
             foreach (var validationResult in results)
             {
-               status.StatusDesc += $"{validationResult.ErrorMessage},";
+               status.StatusDesc += $",{validationResult.ErrorMessage}";
             }
 
             //remove trailing comma

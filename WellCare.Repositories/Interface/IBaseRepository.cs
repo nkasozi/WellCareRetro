@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WellCare.Repositories.Interface
 {
     public interface IBaseRepository<T> where T : IEntity
     {
-        IQueryable<T> AsQuery();
-        void Add(T item);
-        void Update(T item);
-        void Remove(T item);
+        Task<IQueryable<T>> AsQueryAsync();
+        Task AddAsync(T item);
+        Task UpdateAsync(T item);
+        Task RemoveAsync(T item);
     }
 }

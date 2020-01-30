@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using WellCare.Models;
 
 namespace WellCare.Core.Interface
 {
     public interface IEntityManager<DetailsModelClass, CollectionsModelClass, UniqueIdentifierClass>
     {
-        Status Save(DetailsModelClass details);
+        Task<Status> SaveAsync(DetailsModelClass details);
 
-        DetailsModelClass Get(UniqueIdentifierClass id);
+        Task<DetailsModelClass> GetByIdAsync(UniqueIdentifierClass id);
 
-        ICollection<CollectionsModelClass> List();
+        Task<ICollection<CollectionsModelClass>> List();
 
-        Status Remove(UniqueIdentifierClass id);
+        Task<Status> RemoveByIdAsync(UniqueIdentifierClass id);
 
     }
 }

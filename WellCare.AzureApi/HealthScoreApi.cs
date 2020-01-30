@@ -24,8 +24,8 @@ namespace WellCare.AzureApi
             _manager = manager;
         }
 
-        [FunctionName("GetHealthScore")]
-        public async Task<IActionResult> GetHealthScore(
+        [FunctionName("GetHealthScoreById")]
+        public async Task<IActionResult> GetHealthScoreById(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
@@ -33,13 +33,20 @@ namespace WellCare.AzureApi
 
             string Id = req.Query["Id"];
 
-            if(string.IsNullOrEmpty(Id)) 
-                return new BadRequestObjectResult("Please pass an Id on the query string or in the request body");
+            if (string.IsNullOrEmpty(Id))
+                return new BadRequestObjectResult
+                (
+                    "Please pass an Id on the query " +
+                    "string or in the request body"
+                );
 
-            if (!int.TryParse(Id,out _))
-                return new BadRequestObjectResult("Id must be an int");
+            if (!int.TryParse(Id, out _))
+                return new BadRequestObjectResult
+                (
+                    "Id must be an int"
+                );
 
-            HealthScoreDetails details = _manager.Get(int.Parse(Id));
+            var details = await _manager.GetByIdAsync(int.Parse(Id));
 
             return new OkObjectResult(details);
         }
@@ -53,9 +60,9 @@ namespace WellCare.AzureApi
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
-            HealthScoreDetails details = JsonConvert.DeserializeObject<HealthScoreDetails>(requestBody);
+            var details = JsonConvert.DeserializeObject<HealthScoreDetails>(requestBody);
 
-            Status result = _manager.Save(details);
+            var result = await _manager.SaveAsync(details);
 
             return new OkObjectResult(result);
         }
